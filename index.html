@@ -3,476 +3,296 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>손담 복습</title>
+<title>오늘의 손담</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --yellow: #FFD600;
-    --yellow-dark: #E6B800;
-    --green: #00C896;
-    --green-dark: #009E78;
-    --blue: #3A8EFF;
-    --blue-dark: #1A6EDF;
-    --pink: #FF6B9D;
-    --bg: #F7F6F0;
-    --card-bg: #FFFFFF;
-    --text: #1A1A1A;
-    --text-sub: #666;
-    --border: #E8E4D8;
-    --radius: 20px;
-    --shadow: 0 4px 0px rgba(0,0,0,0.12);
-  }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 
-  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+:root {
+  --peach: #FFF3EC;
+  --peach-mid: #FFE0CC;
+  --orange: #FF7A3D;
+  --orange-dark: #E05E24;
+  --brown: #5C3A1E;
+  --brown-light: #A0673A;
+  --green: #2E9B6E;
+  --green-bg: #E8F7F0;
+  --text: #2C1A0E;
+  --sub: #9B7560;
+}
 
-  body {
-    font-family: 'Noto Sans KR', sans-serif;
-    background: var(--bg);
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 0 0 2rem;
-  }
+html, body {
+  min-height: 100%;
+  background: var(--peach);
+  font-family: 'Noto Sans KR', sans-serif;
+}
 
-  /* HEADER */
-  .header {
-    width: 100%;
-    background: var(--yellow);
-    padding: 1.4rem 1.5rem 1.2rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    border-bottom: 3px solid var(--yellow-dark);
-    position: relative;
-  }
-  .header-badge {
-    background: var(--text);
-    color: var(--yellow);
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    padding: 3px 10px;
-    border-radius: 20px;
-    margin-bottom: 0.4rem;
-    text-transform: uppercase;
-  }
-  .header h1 {
-    font-size: 28px;
-    font-weight: 900;
-    color: var(--text);
-    letter-spacing: -0.02em;
-    line-height: 1;
-  }
-  .header-sub {
-    font-size: 13px;
-    color: rgba(0,0,0,0.55);
-    margin-top: 4px;
-    font-weight: 500;
-  }
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 2rem 1.25rem;
+}
 
-  /* MAIN CONTENT */
-  .main {
-    width: 100%;
-    max-width: 420px;
-    padding: 1.5rem 1.2rem;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
+/* 상태: 열기 전 */
+#view-before {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  width: 100%;
+  max-width: 340px;
+}
 
-  /* PROGRESS BAR */
-  .progress-wrap {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  .progress-bar {
-    flex: 1;
-    height: 8px;
-    background: var(--border);
-    border-radius: 99px;
-    overflow: hidden;
-  }
-  .progress-fill {
-    height: 100%;
-    background: var(--green);
-    border-radius: 99px;
-    width: 0%;
-    transition: width 0.4s ease;
-  }
-  .progress-text {
-    font-size: 12px;
-    font-weight: 700;
-    color: var(--text-sub);
-    min-width: 44px;
-    text-align: right;
-  }
+.cookie-wrap {
+  position: relative;
+  width: 220px;
+  height: 220px;
+  margin-bottom: 2rem;
+  cursor: pointer;
+}
+.cookie-img {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 120px;
+  line-height: 1;
+  filter: drop-shadow(0 8px 24px rgba(255,122,61,0.25));
+  transition: transform 0.15s ease;
+  user-select: none;
+}
+.cookie-img:active { transform: scale(0.93); }
+.cookie-pulse {
+  position: absolute;
+  inset: -12px;
+  border-radius: 50%;
+  border: 2px solid var(--peach-mid);
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.08); opacity: 0.3; }
+}
 
-  /* CARD */
-  .card {
-    background: var(--card-bg);
-    border-radius: var(--radius);
-    border: 2px solid var(--border);
-    box-shadow: var(--shadow);
-    min-height: 200px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 2.5rem 1.5rem;
-    gap: 0.75rem;
-    position: relative;
-    overflow: hidden;
-    transition: transform 0.15s ease;
-  }
-  .card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 5px;
-    background: var(--yellow);
-    border-radius: var(--radius) var(--radius) 0 0;
-  }
-  .card.animate {
-    animation: pop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-  }
-  @keyframes pop {
-    0% { transform: scale(0.94); opacity: 0.6; }
-    100% { transform: scale(1); opacity: 1; }
-  }
-  .card-icon {
-    font-size: 48px;
-    line-height: 1;
-  }
-  .card-word {
-    font-size: 30px;
-    font-weight: 900;
-    color: var(--text);
-    text-align: center;
-    letter-spacing: -0.02em;
-    line-height: 1.3;
-  }
-  .card-hint {
-    font-size: 13px;
-    color: var(--text-sub);
-    font-weight: 400;
-  }
-  .card-idle {
-    text-align: center;
-  }
-  .card-idle .idle-icon {
-    font-size: 52px;
-    display: block;
-    margin-bottom: 0.5rem;
-    animation: bounce 2s ease-in-out infinite;
-  }
-  @keyframes bounce {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-6px); }
-  }
-  .card-idle p {
-    font-size: 15px;
-    color: var(--text-sub);
-    font-weight: 500;
-  }
+.before-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--sub);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+.before-title {
+  font-size: 26px;
+  font-weight: 900;
+  color: var(--text);
+  letter-spacing: -0.03em;
+  text-align: center;
+  line-height: 1.2;
+  margin-bottom: 0.4rem;
+}
+.before-sub {
+  font-size: 14px;
+  color: var(--sub);
+  text-align: center;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
 
-  /* BUTTONS */
-  .btn-draw {
-    background: var(--blue);
-    color: #fff;
-    border: none;
-    border-radius: var(--radius);
-    padding: 18px;
-    font-size: 18px;
-    font-weight: 700;
-    font-family: 'Noto Sans KR', sans-serif;
-    width: 100%;
-    cursor: pointer;
-    box-shadow: 0 4px 0px var(--blue-dark);
-    transition: transform 0.1s, box-shadow 0.1s;
-    letter-spacing: -0.01em;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-  }
-  .btn-draw:active {
-    transform: translateY(3px);
-    box-shadow: 0 1px 0px var(--blue-dark);
-  }
-  .btn-draw .arrow {
-    font-size: 20px;
-    transition: transform 0.2s;
-  }
-  .btn-draw:active .arrow {
-    transform: translateX(4px);
-  }
+.btn-open {
+  width: 100%;
+  padding: 18px;
+  background: var(--orange);
+  color: #fff;
+  border: none;
+  border-radius: 16px;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 17px;
+  font-weight: 700;
+  cursor: pointer;
+  letter-spacing: -0.01em;
+  box-shadow: 0 4px 0 var(--orange-dark);
+  transition: transform 0.1s, box-shadow 0.1s;
+}
+.btn-open:active {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 var(--orange-dark);
+}
 
-  .btn-link {
-    background: var(--green);
-    color: #fff;
-    border: none;
-    border-radius: var(--radius);
-    padding: 16px;
-    font-size: 16px;
-    font-weight: 700;
-    font-family: 'Noto Sans KR', sans-serif;
-    width: 100%;
-    cursor: pointer;
-    box-shadow: 0 4px 0px var(--green-dark);
-    transition: transform 0.1s, box-shadow 0.1s, opacity 0.2s;
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    opacity: 0;
-    pointer-events: none;
-  }
-  .btn-link.visible {
-    opacity: 1;
-    pointer-events: all;
-  }
-  .btn-link:active {
-    transform: translateY(3px);
-    box-shadow: 0 1px 0px var(--green-dark);
-  }
+/* 상태: 열린 후 */
+#view-after {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  max-width: 340px;
+}
+#view-after.show { display: flex; }
 
-  /* LIST SECTION */
-  .list-section {
-    border: 2px solid var(--border);
-    border-radius: var(--radius);
-    overflow: hidden;
-    background: var(--card-bg);
-    box-shadow: var(--shadow);
-  }
-  .list-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 14px 16px;
-    cursor: pointer;
-    background: var(--card-bg);
-    user-select: none;
-  }
-  .list-header-left {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 15px;
-    font-weight: 700;
-    color: var(--text);
-  }
-  .list-count {
-    background: var(--yellow);
-    color: var(--text);
-    font-size: 12px;
-    font-weight: 700;
-    padding: 2px 8px;
-    border-radius: 99px;
-  }
-  .list-chevron {
-    font-size: 18px;
-    color: var(--text-sub);
-    transition: transform 0.2s;
-  }
-  .list-chevron.open { transform: rotate(180deg); }
-  .list-body {
-    display: none;
-    border-top: 2px solid var(--border);
-  }
-  .list-body.open { display: block; }
-  .list-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 12px 16px;
-    border-bottom: 1px solid var(--border);
-    gap: 8px;
-  }
-  .list-item:last-child { border-bottom: none; }
-  .list-num {
-    font-size: 12px;
-    font-weight: 700;
-    color: var(--text-sub);
-    min-width: 22px;
-  }
-  .list-word {
-    flex: 1;
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--text);
-  }
-  .list-link {
-    font-size: 12px;
-    font-weight: 700;
-    color: var(--blue);
-    text-decoration: none;
-    background: rgba(58,142,255,0.08);
-    padding: 4px 10px;
-    border-radius: 99px;
-    white-space: nowrap;
-  }
-  .list-link:active { background: rgba(58,142,255,0.18); }
+.result-card {
+  width: 100%;
+  background: #fff;
+  border-radius: 24px;
+  padding: 2.5rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  box-shadow: 0 2px 32px rgba(255,122,61,0.10);
+  animation: reveal 0.5s cubic-bezier(0.34, 1.4, 0.64, 1) forwards;
+  position: relative;
+  overflow: hidden;
+}
+.result-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--orange), #FFB347);
+  border-radius: 24px 24px 0 0;
+}
+@keyframes reveal {
+  from { opacity: 0; transform: scale(0.88) translateY(16px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+.result-tag {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--orange);
+  text-transform: uppercase;
+}
+.result-icon { font-size: 56px; line-height: 1; }
+.result-word {
+  font-size: 32px;
+  font-weight: 900;
+  color: var(--text);
+  text-align: center;
+  letter-spacing: -0.03em;
+  line-height: 1.3;
+}
 
-  /* FOOTER */
-  .footer {
-    margin-top: 0.5rem;
-    text-align: center;
-    font-size: 12px;
-    color: #aaa;
-    font-weight: 400;
-  }
+.btn-padlet {
+  width: 100%;
+  padding: 15px;
+  background: var(--green-bg);
+  color: var(--green);
+  border: 1.5px solid rgba(46,155,110,0.22);
+  border-radius: 14px;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: background 0.12s, transform 0.1s;
+  letter-spacing: -0.01em;
+}
+.btn-padlet:active { transform: scale(0.98); background: #d2f0e4; }
 
-  /* ALL DONE */
-  @keyframes tada {
-    0%,100%{transform:scale(1) rotate(0)}
-    10%,20%{transform:scale(0.9) rotate(-3deg)}
-    30%,50%,70%,90%{transform:scale(1.1) rotate(3deg)}
-    40%,60%,80%{transform:scale(1.1) rotate(-3deg)}
-  }
-  .done-icon { animation: tada 0.8s ease; display: inline-block; font-size: 52px; }
+.btn-again {
+  background: none;
+  border: none;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--sub);
+  cursor: pointer;
+  padding: 8px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.foot {
+  font-size: 11px;
+  color: var(--peach-mid);
+  margin-top: 1rem;
+  letter-spacing: 0.03em;
+}
 </style>
 </head>
 <body>
 
-<div class="header">
-  <span class="header-badge">AAC 손담 복습</span>
-  <h1>오늘의 손담 ✋</h1>
-  <p class="header-sub">버튼을 눌러 랜덤으로 복습해보세요</p>
+<!-- 열기 전 -->
+<div id="view-before">
+  <div class="before-label">AAC · 손담 복습</div>
+  <div class="cookie-wrap" onclick="openCookie()">
+    <div class="cookie-pulse"></div>
+    <div class="cookie-img">🥠</div>
+  </div>
+  <div class="before-title">오늘의 손담은<br>무엇일까요?</div>
+  <div class="before-sub">쿠키를 눌러서<br>오늘의 손담을 확인하세요</div>
+  <button class="btn-open" onclick="openCookie()">✨ 오늘의 손담 열기</button>
 </div>
 
-<div class="main">
-
-  <div class="progress-wrap">
-    <div class="progress-bar">
-      <div class="progress-fill" id="pFill"></div>
-    </div>
-    <div class="progress-text" id="pText">0 / 27</div>
+<!-- 열린 후 -->
+<div id="view-after">
+  <div class="result-card">
+    <div class="result-tag">오늘의 손담</div>
+    <div class="result-icon" id="resultIcon"></div>
+    <div class="result-word" id="resultWord"></div>
   </div>
-
-  <div class="card" id="card">
-    <div class="card-idle">
-      <span class="idle-icon">👆</span>
-      <p>아래 버튼을 눌러<br>손담을 뽑아보세요!</p>
-    </div>
-  </div>
-
-  <button class="btn-draw" id="btnDraw" onclick="draw()">
-    <span>손담 뽑기</span>
-    <span class="arrow">→</span>
-  </button>
-
-  <a class="btn-link" id="btnLink" href="#" target="_blank">
-    <span>📗 패들렛에서 자세히 보기</span>
+  <a class="btn-padlet" id="btnPadlet" href="#" target="_blank">
+    📗 패들렛에서 자세히 보기
   </a>
-
-  <div class="list-section">
-    <div class="list-header" onclick="toggleList()">
-      <div class="list-header-left">
-        📋 전체 손담 목록
-        <span class="list-count">27개</span>
-      </div>
-      <span class="list-chevron" id="chevron">▾</span>
-    </div>
-    <div class="list-body" id="listBody"></div>
-  </div>
-
-  <p class="footer">손담(손으로 나누는 담화) · 복습용 앱</p>
+  <button class="btn-again" onclick="reset()">다시 뽑기</button>
 </div>
+
+<div class="foot">손담(손으로 나누는 담화) · AAC 복습용</div>
 
 <script>
 const data = [
-  {w:"가다", icon:"🚶", url:"https://padlet.com/eggfam99/padlet-26t1epn45zbrgyt/wish/XGyBQbXoYNbgWL6K"},
-  {w:"그만하다 (멈추다)", icon:"✋", url:"https://padlet.com/eggfam99/padlet-26t1epn45zbrgyt/wish/kxodWG2GVvbJZgP7"},
-  {w:"기다리다", icon:"⏳", url:"https://padlet.com/eggfam99/padlet-26t1epn45zbrgyt/wish/1xkVaqGbdEz1Zl0e"},
-  {w:"내일", icon:"📅", url:"https://padlet.com/eggfam99/padlet-26t1epn45zbrgyt/wish/KxJvagYdzp18ZAg0"},
-  {w:"느리다 / 천천히", icon:"🐢", url:"https://padlet.com/eggfam99/padlet-26t1epn45zbrgyt/wish/x5A7arGdD5oPQwr6"},
-  {w:"마시다 / 목마르다 / 물", icon:"💧", url:"https://padlet.com/eggfam99/padlet-26t1epn45zbrgyt/wish/e9YpQN9Dn8JDaxjM"},
-  {w:"먹다 / 식사 / 간식", icon:"🍱", url:"https://padlet.com/eggfam99/padlet-26t1epn45zbrgyt/wish/E851Q0vGqmVOWVAb"},
-  {w:"목욕하다", icon:"🛁", url:"https://padlet.com/eggfam99/padlet-26t1epn45zbrgyt/wish/PR3NWxG9q6rpZb0O"},
-  {w:"배고프다", icon:"😋", url:"https://padlet.com/eggfam99/padlet-26t1epn45zbrgyt/wish/jpoxaj2Bzg80abPE"},
-  {w:"병원", icon:"🏥", url:"https://padlet.com/eggfam99/padlet-26t1epn45zbrgyt/wish/J24jaloOVBj0W0A1"},
-  {w:"불편하다", icon:"😣", url:"https://padlet.com/eggfam99/padlet-26t1epn45zbrgyt/wish/E851Q0Oz71q0aVAb"},
-  {w:"싫다", icon:"🙅", url:"https://padlet.com/eggfam99/padlet-26t1epn45zbrgyt/wish/zV61Q6xNeEKbWO98"},
-  {w:"아프다", icon:"🤕", url:"https://padlet.com/eggfam99/padlet-26t1epn45zbrgyt/wish/x5A7arGBOX4XQwr6"},
-  {w:"안녕 (안녕하세요, 안녕히 계세요)", icon:"👋", url:"https://padlet.com/eggfam99/padlet-26t1epn45zbrgyt/wish/4b3zaM0dpVgkW2j7"},
-  {w:"예 (응, 그래)", icon:"👍", url:"https://padlet.com/eggfam99/padlet-26t1epn45zbrgyt/wish/LNV1Q70wpLMPZmq3"},
-  {w:"잠깐만 / 다음에", icon:"🤚", url:"https://padlet.com/eggfam99/padlet-26t1epn45zbrgyt/wish/do3MQJP5Y8qkW15w"},
-  {w:"조심하다", icon:"⚠️", url:"https://padlet.com/eggfam99/padlet-26t1epn45zbrgyt/wish/R7dXadN7rXNlZ6bl"},
-  {w:"좀 더", icon:"➕", url:"https://padlet.com/eggfam99/padlet-26t1epn45zbrgyt/wish/YDgnZe13v501ZwrA"},
-  {w:"좋다 / 잘하다", icon:"⭐", url:"https://padlet.com/eggfam99/padlet-26t1epn45zbrgyt/wish/j40PQDyG6v8kZvXB"},
-  {w:"주다", icon:"🤲", url:"https://padlet.com/eggfam99/padlet-26t1epn45zbrgyt/wish/jpoxajkneGJ7QbPE"},
-  {w:"주세요", icon:"🙏", url:"https://padlet.com/eggfam99/padlet-26t1epn45zbrgyt/wish/R7dXadNO0BkDZ6bl"},
-  {w:"지금 / 오늘", icon:"📍", url:"https://padlet.com/eggfam99/padlet-26t1epn45zbrgyt/wish/LNV1Q70gx18jZmq3"},
-  {w:"차갑다 / 춥다", icon:"🥶", url:"https://padlet.com/eggfam99/padlet-26t1epn45zbrgyt/wish/4b3zaM0d2yV9W2j7"},
-  {w:"피곤하다 / 쉬다", icon:"😴", url:"https://padlet.com/eggfam99/padlet-26t1epn45zbrgyt/wish/O7A9QmwxyprlW6x3"},
-  {w:"하고 싶다", icon:"💪", url:"https://padlet.com/eggfam99/padlet-26t1epn45zbrgyt/wish/e9YpQN9Dn6nEaxjM"},
-  {w:"함께 / 함께하다", icon:"🤝", url:"https://padlet.com/eggfam99/padlet-26t1epn45zbrgyt/wish/mDRxWBq1PmxqZjb1"},
-  {w:"화장실 / 소변보다", icon:"🚻", url:"https://padlet.com/eggfam99/padlet-26t1epn45zbrgyt/wish/goElQyGqAndbW3yY"}
+  {w:"가다",                              icon:"🚶", url:"https://padlet.com/eggfam99/padlet-26t1epn45zbrgyt/wish/XGyBQbXoYNbgWL6K"},
+  {w:"그만하다 (멈추다)",                 icon:"✋", url:"https://padlet.com/eggfam99/padlet-26t1epn45zbrgyt/wish/kxodWG2GVvbJZgP7"},
+  {w:"기다리다",                          icon:"⏳", url:"https://padlet.com/eggfam99/padlet-26t1epn45zbrgyt/wish/1xkVaqGbdEz1Zl0e"},
+  {w:"내일",                              icon:"📅", url:"https://padlet.com/eggfam99/padlet-26t1epn45zbrgyt/wish/KxJvagYdzp18ZAg0"},
+  {w:"느리다 / 천천히",                  icon:"🐢", url:"https://padlet.com/eggfam99/padlet-26t1epn45zbrgyt/wish/x5A7arGdD5oPQwr6"},
+  {w:"마시다 / 목마르다 / 물",           icon:"💧", url:"https://padlet.com/eggfam99/padlet-26t1epn45zbrgyt/wish/e9YpQN9Dn8JDaxjM"},
+  {w:"먹다 / 식사 / 간식",               icon:"🍱", url:"https://padlet.com/eggfam99/padlet-26t1epn45zbrgyt/wish/E851Q0vGqmVOWVAb"},
+  {w:"목욕하다",                          icon:"🛁", url:"https://padlet.com/eggfam99/padlet-26t1epn45zbrgyt/wish/PR3NWxG9q6rpZb0O"},
+  {w:"배고프다",                          icon:"😋", url:"https://padlet.com/eggfam99/padlet-26t1epn45zbrgyt/wish/jpoxaj2Bzg80abPE"},
+  {w:"병원",                              icon:"🏥", url:"https://padlet.com/eggfam99/padlet-26t1epn45zbrgyt/wish/J24jaloOVBj0W0A1"},
+  {w:"불편하다",                          icon:"😣", url:"https://padlet.com/eggfam99/padlet-26t1epn45zbrgyt/wish/E851Q0Oz71q0aVAb"},
+  {w:"싫다",                              icon:"🙅", url:"https://padlet.com/eggfam99/padlet-26t1epn45zbrgyt/wish/zV61Q6xNeEKbWO98"},
+  {w:"아프다",                            icon:"🤕", url:"https://padlet.com/eggfam99/padlet-26t1epn45zbrgyt/wish/x5A7arGBOX4XQwr6"},
+  {w:"안녕 (안녕하세요, 안녕히 계세요)",icon:"👋", url:"https://padlet.com/eggfam99/padlet-26t1epn45zbrgyt/wish/4b3zaM0dpVgkW2j7"},
+  {w:"예 (응, 그래)",                    icon:"👍", url:"https://padlet.com/eggfam99/padlet-26t1epn45zbrgyt/wish/LNV1Q70wpLMPZmq3"},
+  {w:"잠깐만 / 다음에",                  icon:"🤚", url:"https://padlet.com/eggfam99/padlet-26t1epn45zbrgyt/wish/do3MQJP5Y8qkW15w"},
+  {w:"조심하다",                          icon:"⚠️", url:"https://padlet.com/eggfam99/padlet-26t1epn45zbrgyt/wish/R7dXadN7rXNlZ6bl"},
+  {w:"좀 더",                             icon:"➕", url:"https://padlet.com/eggfam99/padlet-26t1epn45zbrgyt/wish/YDgnZe13v501ZwrA"},
+  {w:"좋다 / 잘하다",                    icon:"⭐", url:"https://padlet.com/eggfam99/padlet-26t1epn45zbrgyt/wish/j40PQDyG6v8kZvXB"},
+  {w:"주다",                              icon:"🤲", url:"https://padlet.com/eggfam99/padlet-26t1epn45zbrgyt/wish/jpoxajkneGJ7QbPE"},
+  {w:"주세요",                            icon:"🙏", url:"https://padlet.com/eggfam99/padlet-26t1epn45zbrgyt/wish/R7dXadNO0BkDZ6bl"},
+  {w:"지금 / 오늘",                      icon:"📍", url:"https://padlet.com/eggfam99/padlet-26t1epn45zbrgyt/wish/LNV1Q70gx18jZmq3"},
+  {w:"차갑다 / 춥다",                    icon:"🥶", url:"https://padlet.com/eggfam99/padlet-26t1epn45zbrgyt/wish/4b3zaM0d2yV9W2j7"},
+  {w:"피곤하다 / 쉬다",                  icon:"😴", url:"https://padlet.com/eggfam99/padlet-26t1epn45zbrgyt/wish/O7A9QmwxyprlW6x3"},
+  {w:"하고 싶다",                         icon:"💪", url:"https://padlet.com/eggfam99/padlet-26t1epn45zbrgyt/wish/e9YpQN9Dn6nEaxjM"},
+  {w:"함께 / 함께하다",                  icon:"🤝", url:"https://padlet.com/eggfam99/padlet-26t1epn45zbrgyt/wish/mDRxWBq1PmxqZjb1"},
+  {w:"화장실 / 소변보다",                icon:"🚻", url:"https://padlet.com/eggfam99/padlet-26t1epn45zbrgyt/wish/goElQyGqAndbW3yY"}
 ];
 
-let pool = [], seen = 0;
-
-function shuffle(arr) {
-  for(let i=arr.length-1;i>0;i--){
-    const j=Math.floor(Math.random()*(i+1));
-    [arr[i],arr[j]]=[arr[j],arr[i]];
-  }
-  return arr;
+function openCookie() {
+  const item = data[Math.floor(Math.random() * data.length)];
+  document.getElementById('resultIcon').textContent = item.icon;
+  document.getElementById('resultWord').textContent = item.w;
+  document.getElementById('btnPadlet').href = item.url;
+  document.getElementById('view-before').style.display = 'none';
+  const after = document.getElementById('view-after');
+  after.classList.add('show');
 }
 
-function draw() {
-  if(pool.length===0){
-    pool=shuffle([...Array(data.length).keys()]);
-    seen=0;
-  }
-  const idx=pool.pop();
-  const item=data[idx];
-  seen++;
-
-  // Update card
-  const card=document.getElementById('card');
-  card.classList.remove('animate');
-  void card.offsetWidth;
-  card.classList.add('animate');
-
-  if(seen===data.length && pool.length===0){
-    card.innerHTML=`<div class="card-idle"><span class="done-icon">🎉</span><p style="font-weight:700;font-size:16px;color:#1A1A1A;margin-top:8px;">27개 모두 완료!</p><p style="font-size:13px;color:#666;margin-top:4px;">버튼을 누르면 다시 시작해요</p></div>`;
-  } else {
-    card.innerHTML=`<div class="card-icon">${item.icon}</div><div class="card-word">${item.w}</div>`;
-  }
-
-  // Update link
-  const btn=document.getElementById('btnLink');
-  btn.href=item.url;
-  btn.classList.add('visible');
-
-  // Update progress
-  const total=data.length;
-  const pct=Math.round((seen/total)*100);
-  document.getElementById('pFill').style.width=pct+'%';
-  document.getElementById('pText').textContent=seen+' / '+total;
-
-  // Update draw button
-  document.getElementById('btnDraw').innerHTML='<span>다른 손담 뽑기</span><span class="arrow">→</span>';
-}
-
-function toggleList(){
-  const body=document.getElementById('listBody');
-  const chevron=document.getElementById('chevron');
-  if(!body.innerHTML){
-    body.innerHTML=data.map((d,i)=>`
-      <div class="list-item">
-        <span class="list-num">${i+1}</span>
-        <span class="list-word">${d.icon} ${d.w}</span>
-        <a class="list-link" href="${d.url}" target="_blank">보기</a>
-      </div>`).join('');
-  }
-  const isOpen=body.classList.toggle('open');
-  chevron.classList.toggle('open',isOpen);
+function reset() {
+  document.getElementById('view-after').classList.remove('show');
+  document.getElementById('view-before').style.display = 'flex';
 }
 </script>
 </body>
